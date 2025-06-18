@@ -69,12 +69,33 @@
               right: 20px;
             }
 
+            .eye-l::before, .eye-r::before {
+              content: '';
+              position: absolute;
+              width: 15px;
+              height: 15px;
+              background: white;
+              border-radius: 50%;
+              top: 12px;
+              left: 7px;
+              transform: translate(var(--pupil-x, 0), var(--pupil-y, 0)); /* Critical fix */
+              transition: transform 0.1s ease-out;
+            }
+
+            .forehead:hover ~ .eye-l::before,
+            .forehead:hover ~ .eye-r::before,
+            .eye-l:hover::before,
+            .eye-r:hover::before {
+              opacity: 0;
+              transition: opacity 0.2s ease;
+            }
+
             .forehead {
               position: absolute;
-              height: 20px;
+              height: 25px;
               width: 150px;
               background: transparent;
-              top: 10px;
+              top: -5px;
               border-radius: 35px 35px 10px 10px;
               cursor: grab;
             }
@@ -148,6 +169,28 @@
       <div class="eye-r"></div>
       <div class="nose"></div>
       <div class="left-ear"></div>
+
+      <script>
+        document.addEventListener('mousemove', (e) => {
+            const eyes = document.querySelectorAll('.eye-l, .eye-r');
+            
+            eyes.forEach(eye => {
+                const eyeRect = eye.getBoundingClientRect();
+                const eyeX = eyeRect.left + eyeRect.width / 2;
+                const eyeY = eyeRect.top + eyeRect.height / 2;
+                
+                // Calculate angle and distance
+                const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
+                const distance = 5; // How far pupils move
+                const pupilX = Math.cos(angle) * distance;
+                const pupilY = Math.sin(angle) * distance;
+                
+                // Update CSS variables
+                eye.style.setProperty('--pupil-x', `${pupilX}px`);
+                eye.style.setProperty('--pupil-y', `${pupilY}px`);
+            });
+        });
+      </script>
     </div>
   </body>
 </html>
