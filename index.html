@@ -293,96 +293,96 @@
 
       // DOM Elements
       const meaw = document.querySelector(".meaw");
-const mouth = document.querySelector(".open-mouth");
-const chatInput = document.getElementById("chat-input");
-const sendBtn = document.getElementById("chat-send");
-
-let selectedVoice = null;
-
-// Load preferred voice
-function getMeawVoice() {
-  const voices = speechSynthesis.getVoices();
-
-  if (!voices.length) {
-    setTimeout(getMeawVoice, 200);
-    return;
-  }
-
-  const preferredVoices = [
-    "Microsoft Aria Online (Natural)",  // cat-like and expressive
-    "Google UK English Female",
-    "Google US English",
-    "Microsoft Zira Desktop",
-    "Samantha",
-    "Karen"
-  ];
-
-  for (let name of preferredVoices) {
-    const voice = voices.find(v => v.name.includes(name));
-    if (voice) {
-      selectedVoice = voice;
-      break;
+    const mouth = document.querySelector(".open-mouth");
+    const chatInput = document.getElementById("chat-input");
+    const sendBtn = document.getElementById("chat-send");
+    
+    let selectedVoice = null;
+    
+    // Load preferred voice
+    function getMeawVoice() {
+      const voices = speechSynthesis.getVoices();
+    
+      if (!voices.length) {
+        setTimeout(getMeawVoice, 200);
+        return;
+      }
+    
+      const preferredVoices = [
+        "Microsoft Aria Online (Natural)",  // cat-like and expressive
+        "Google UK English Female",
+        "Google US English",
+        "Microsoft Zira Desktop",
+        "Samantha",
+        "Karen"
+      ];
+    
+      for (let name of preferredVoices) {
+        const voice = voices.find(v => v.name.includes(name));
+        if (voice) {
+          selectedVoice = voice;
+          break;
+        }
+      }
+    
+      if (!selectedVoice) {
+        selectedVoice = voices.find(v => v.lang.startsWith("en")) || voices[0];
+      }
+    
+      console.log("Meaw will use voice:", selectedVoice.name);
     }
-  }
-
-  if (!selectedVoice) {
-    selectedVoice = voices.find(v => v.lang.startsWith("en")) || voices[0];
-  }
-
-  console.log("Meaw will use voice:", selectedVoice.name);
-}
-
-// Trigger it properly
-if (speechSynthesis.getVoices().length > 0) {
-  getMeawVoice(); // voices already loaded
-} else {
-  speechSynthesis.onvoiceschanged = getMeawVoice; // wait for them
-}
-
-// Speak + animate
-function speakToMeaw(text) {
-  if (!text) return;
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  if (selectedVoice) utterance.voice = selectedVoice;
-
-  // 🎵 Make it cat-like
-  utterance.pitch = 1.6;  // still playful but less squeaky
-  utterance.rate = 0.9;   // default speed
-
-  utterance.onstart = () => {
-    meaw.classList.add("speaking");
-    mouth.style.transform = "translateY(0)";
-    mouth.style.opacity = "1";
-    mouth.style.background = "#b70e0e";
-  };
-
-  utterance.onend = () => {
-    meaw.classList.remove("speaking");
-    mouth.style.transform = "translateY(-10px)";
-    mouth.style.opacity = "0";
-    mouth.style.background = "transparent";
-  };
-
-  speechSynthesis.speak(utterance);
-}
-
-// Enter to speak
-chatInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    const text = chatInput.value.trim();
-    speakToMeaw(text);
-    chatInput.value = "";
-  }
-});
-
-// Click to speak
-sendBtn.addEventListener("click", () => {
-  const text = chatInput.value.trim();
-  speakToMeaw(text);
-  chatInput.value = "";
-});
+    
+    // Trigger it properly
+    if (speechSynthesis.getVoices().length > 0) {
+      getMeawVoice(); // voices already loaded
+    } else {
+      speechSynthesis.onvoiceschanged = getMeawVoice; // wait for them
+    }
+    
+    // Speak + animate
+    function speakToMeaw(text) {
+      if (!text) return;
+    
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (selectedVoice) utterance.voice = selectedVoice;
+    
+      // 🎵 Make it cat-like
+      utterance.pitch = 1.6;  // still playful but less squeaky
+      utterance.rate = 0.9;   // default speed
+    
+      utterance.onstart = () => {
+        meaw.classList.add("speaking");
+        mouth.style.transform = "translateY(0)";
+        mouth.style.opacity = "1";
+        mouth.style.background = "#b70e0e";
+      };
+    
+      utterance.onend = () => {
+        meaw.classList.remove("speaking");
+        mouth.style.transform = "translateY(-10px)";
+        mouth.style.opacity = "0";
+        mouth.style.background = "transparent";
+      };
+    
+      speechSynthesis.speak(utterance);
+    }
+    
+    // Enter to speak
+    chatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        speakToMeaw(text);
+        chatInput.value = "";
+      }
+    });
+    
+    // Click to speak
+    sendBtn.addEventListener("click", () => {
+      const text = chatInput.value.trim();
+      speakToMeaw(text);
+      chatInput.value = "";
+    });
 
     </script>
 
