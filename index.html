@@ -9,7 +9,7 @@
               align-items: center;
               height: 100vh;
               margin: 20;
-              cursor: url('https://crazy-ledend.github.io/Hazelnut-web/selector.png') 8 8, auto;
+              cursor: url('https://media.discordapp.net/attachments/1312285788473528410/1391674815722684438/selector.png?ex=686cc1ac&is=686b702c&hm=396f2b21ab0d1fe9744f0e118e13daec12ffa858effc92ed647ff0bca8056cea&=&format=webp&quality=lossless&width=50&height=50') 8 8, auto;
             }
 
             .meaw {
@@ -88,7 +88,21 @@
             .eye-l:hover::before,
             .eye-r:hover::before {
               opacity: 0;
+              /* border-radius: 20px 0 0 0; */
               transition: opacity 0.2s ease;
+            }
+            .forehead:hover ~ .eye-l,
+            .forehead:hover ~ .eye-r {
+                position: absolute;
+              height: 30px;
+              width: 30px;
+              background: transparent;
+              border-radius: 50px;
+              top: 35px;
+              box-shadow: 0 -4px black,
+                  0 -8px black;
+              /* transform: rotate(180deg); */
+              transition: all 0.18s ease;
             }
 
             .forehead {
@@ -98,7 +112,7 @@
               background: transparent;
               top: -5px;
               border-radius: 35px 35px 10px 10px;
-              cursor: url('https://crazy-ledend.github.io/Hazelnut-web/pointer.png') 8 8, pointer;
+              cursor: url('https://media.discordapp.net/attachments/1312285788473528410/1391674815475089428/pointer.png?ex=686cc1ac&is=686b702c&hm=86da28d9dc93fabeee8131c1ce2c85c46f335aa8741facabcc0521015f50ffa2&=&format=webp&quality=lossless&width=50&height=50') 8 8, pointer;
             }
 
             .forehead:hover ~ .cheek-r,
@@ -136,11 +150,37 @@
               transform: rotate(180deg);
             }
 
+            .nose:hover ~ .open-mouth {
+              background: #b70e0e !important;
+              transform: translateY(0);
+              opacity: 1;
+              /* border-top: 20px solid #b70e0e;
+              transform: translateX(-50%) scaleY(1.2); */
+            }
+
+            .open-mouth {
+              position: absolute;
+              height: 30px;
+              width: 20px;
+              /* border-left: 25px solid transparent;
+              border-right: 25px solid transparent;
+              border-top: 20px solid #b70e0e; */
+              background: transparent;
+              border-radius: 10px;
+              top: 70px;
+              left: 67px;
+              transform: translateY(-10px);
+              opacity: 0;
+              transition: transform 0.4s ease, opacity 0.4s ease, background 0.4s ease;
+              /* transform: rotate(180deg); */
+            }
+
             .mouth-l, .mouth-r {
               position: absolute;
               height: 30px;
-              width: 30px;
-              background: transparent;
+              width: 25px;
+              /* background: transparent; */
+              background-color: #ffcc00;
               border-radius: 50px;
               top: 55px;
               box-shadow: 0 4px white,
@@ -148,7 +188,7 @@
             }
 
             .mouth-l {
-              left: 77px;
+              left: 80px;
               transform: rotate(20deg);
             }
 
@@ -162,36 +202,15 @@
     <div class="meaw">
       <div class="forehead"></div>
       <div class="right-ear"></div>
+      <div class="nose"></div>
+      <div class="open-mouth"></div>
       <div class="mouth-l"></div>
       <div class="mouth-r"></div>
       <div class="eye-l"></div> 
       <div class="cheek-l"></div>
       <div class="cheek-r"></div>
       <div class="eye-r"></div>
-      <div class="nose"></div>
       <div class="left-ear"></div>
-
-      <script>
-        document.addEventListener('mousemove', (e) => {
-            const eyes = document.querySelectorAll('.eye-l, .eye-r');
-            
-            eyes.forEach(eye => {
-                const eyeRect = eye.getBoundingClientRect();
-                const eyeX = eyeRect.left + eyeRect.width / 2;
-                const eyeY = eyeRect.top + eyeRect.height / 2;
-                
-                // Calculate angle and distance
-                const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
-                const distance = 5; // How far pupils move
-                const pupilX = Math.cos(angle) * distance;
-                const pupilY = Math.sin(angle) * distance;
-                
-                // Update CSS variables
-                eye.style.setProperty('--pupil-x', `${pupilX}px`);
-                eye.style.setProperty('--pupil-y', `${pupilY}px`);
-            });
-        });
-      </script>
     </div>
   </body>
 </html>
