@@ -211,6 +211,28 @@
       <div class="cheek-r"></div>
       <div class="eye-r"></div>
       <div class="left-ear"></div>
+
+      <script>
+        document.addEventListener('mousemove', (e) => {
+            const eyes = document.querySelectorAll('.eye-l, .eye-r');
+            
+            eyes.forEach(eye => {
+                const eyeRect = eye.getBoundingClientRect();
+                const eyeX = eyeRect.left + eyeRect.width / 2;
+                const eyeY = eyeRect.top + eyeRect.height / 2;
+                
+                // Calculate angle and distance
+                const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
+                const distance = 5; // How far pupils move
+                const pupilX = Math.cos(angle) * distance;
+                const pupilY = Math.sin(angle) * distance;
+                
+                // Update CSS variables
+                eye.style.setProperty('--pupil-x', `${pupilX}px`);
+                eye.style.setProperty('--pupil-y', `${pupilY}px`);
+            });
+        });
+      </script>
     </div>
   </body>
 </html>
